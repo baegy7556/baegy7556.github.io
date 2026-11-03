@@ -1,0 +1,233 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { profile, highlights, skills, experience, education } from '../data/profile';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Base>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <p class="label">{profile.headline}</p>
+      <h1 id="hero-title">{profile.name}</h1>
+      <p class="tagline">{profile.tagline}</p>
+      <ul class="facts">
+        {profile.facts.map((f) => <li>{f}</li>)}
+      </ul>
+      <div class="actions">
+        <a class="btn btn-primary" href={profile.cv} download>
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"></path></svg>
+          Download CV (PDF)
+        </a>
+        <a class="btn" href={profile.github}>GitHub</a>
+        {profile.linkedin && <a class="btn" href={profile.linkedin}>LinkedIn</a>}
+        <a class="btn" href={`mailto:${profile.email}`}>Email</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="highlights-title">
+    <div class="container">
+      <h2 id="highlights-title">What I can do</h2>
+      <ul class="highlights">
+        {
+          highlights.map((h) => (
+            <li>
+              <h3>{h.title}</h3>
+              <p>{h.body}</p>
+              <p class="label">→ {h.proof}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section id="projects" class="section" aria-labelledby="projects-title">
+    <div class="container">
+      <h2 id="projects-title">Projects</h2>
+      <div class="grid">
+        {projects.map((p, i) => <ProjectCard project={p} eager={i < 2} />)}
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="section" aria-labelledby="skills-title">
+    <div class="container">
+      <h2 id="skills-title">Technical skills</h2>
+      <dl class="skills">
+        {
+          skills.map((s) => (
+            <div>
+              <dt class="label">{s.group}</dt>
+              <dd>{s.items.join(' · ')}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section id="experience" class="section" aria-labelledby="experience-title">
+    <div class="container two-col">
+      <div>
+        <h2 id="experience-title">Experience</h2>
+        <ol class="timeline">
+          {
+            experience.map((e) => (
+              <li>
+                <h3>{e.role}</h3>
+                <p class="meta">
+                  {e.org} · {e.where} · <span class="label">{e.period}</span>
+                </p>
+                <ul>
+                  {e.points.map((pt) => (
+                    <li>{pt}</li>
+                  ))}
+                </ul>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <div>
+        <h2 id="education-title">Education</h2>
+        <ol class="timeline">
+          {
+            education.map((e) => (
+              <li>
+                <h3>{e.title}</h3>
+                <p class="meta">
+                  {e.org} · <span class="label">{e.period}</span>
+                </p>
+                <ul>
+                  {e.points.map((pt) => (
+                    <li>{pt}</li>
+                  ))}
+                </ul>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding: 3.5rem 0 3rem;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 7vw, 3.4rem);
+    letter-spacing: -0.02em;
+    margin: 0.25rem 0 0.75rem;
+  }
+  .tagline {
+    font-size: 1.2rem;
+    max-width: 40rem;
+    margin: 0 0 1rem;
+  }
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .facts li::before {
+    content: '▸ ';
+    color: var(--accent);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .highlights {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .highlights li {
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--bg-alt);
+  }
+  .highlights h3 {
+    font-size: 1.05rem;
+  }
+  .highlights p {
+    margin: 0 0 0.5rem;
+    font-size: 0.95rem;
+  }
+  .highlights .label {
+    margin: 0;
+  }
+
+  .grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  }
+
+  .skills {
+    display: grid;
+    gap: 0.9rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    margin: 0;
+  }
+  .skills dd {
+    margin: 0.15rem 0 0;
+  }
+
+  .two-col {
+    display: grid;
+    gap: 2.5rem;
+  }
+  @media (min-width: 56rem) {
+    .two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .timeline > li {
+    padding: 0 0 1.25rem 1rem;
+    border-left: 2px solid var(--border);
+  }
+  .timeline h3 {
+    font-size: 1.02rem;
+    margin: 0;
+  }
+  .meta {
+    margin: 0.15rem 0 0.4rem;
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+  .timeline ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.95rem;
+  }
+</style>

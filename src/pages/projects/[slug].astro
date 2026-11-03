@@ -1,0 +1,163 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+const { project } = Astro.props;
+const { title, summary, cover, coverAlt, tags, role, period, status, links, media } = project.data;
+const { Content } = await render(project);
+---
+
+<Base title={title} description={summary}>
+  <article class="container project">
+    <p><a href="/#projects">← All projects</a></p>
+    <header>
+      <h1>{title}</h1>
+      <p class="summary">{summary}</p>
+    </header>
+
+    <dl class="spec">
+      <div><dt class="label">My role</dt><dd>{role}</dd></div>
+      <div><dt class="label">When</dt><dd>{period}</dd></div>
+      {status && <div><dt class="label">Status</dt><dd>{status}</dd></div>}
+      <div class="wide">
+        <dt class="label">Tech used</dt>
+        <dd><ul class="tags">{tags.map((t) => <li>{t}</li>)}</ul></dd>
+      </div>
+    </dl>
+
+    {
+      links.length > 0 && (
+        <p class="links">
+          {links.map((l) => (
+            <a class="btn" href={l.href}>{l.label}</a>
+          ))}
+        </p>
+      )
+    }
+
+    <img class="cover" src={cover} alt={coverAlt} width="1200" height="675" decoding="async" />
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      media.length > 0 && (
+        <section aria-labelledby="media-title">
+          <h2 id="media-title">Media</h2>
+          <div class="media">
+            {media.map((m) => (
+              <figure>
+                {m.type === 'image' && (
+                  <img src={m.src} alt={m.alt} width="1200" height="675" loading="lazy" decoding="async" />
+                )}
+                {m.type === 'video' && (
+                  <video src={m.src} controls preload="metadata" playsinline aria-label={m.alt || m.caption} />
+                )}
+                {m.type === 'youtube' && (
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${m.src}`}
+                    title={m.alt || m.caption || title}
+                    loading="lazy"
+                    allow="encrypted-media; picture-in-picture"
+                    allowfullscreen
+                  />
+                )}
+                {m.caption && <figcaption class="muted">{m.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </article>
+</Base>
+
+<style>
+  .project {
+    max-width: 48rem;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+  }
+  h1 {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    margin: 0.5rem 0;
+  }
+  .summary {
+    font-size: 1.15rem;
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+  }
+  .spec {
+    display: grid;
+    gap: 0.75rem 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    margin: 0 0 1.5rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-alt);
+  }
+  .spec .wide {
+    grid-column: 1 / -1;
+  }
+  .spec dd {
+    margin: 0.2rem 0 0;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .cover {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin: 1.5rem 0;
+  }
+  .prose :global(h2) {
+    margin-top: 2rem;
+    font-size: 1.35rem;
+  }
+  .prose :global(li) {
+    margin: 0.25rem 0;
+  }
+  .prose :global(strong) {
+    font-weight: 650;
+  }
+  section {
+    margin-top: 2rem;
+  }
+  .media {
+    display: grid;
+    gap: 1.25rem;
+  }
+  figure {
+    margin: 0;
+  }
+  .media img,
+  .media video,
+  .media iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-alt);
+  }
+  figcaption {
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+  }
+</style>

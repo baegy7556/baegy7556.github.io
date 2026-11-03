@@ -1,0 +1,86 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  eager?: boolean;
+}
+const { project, eager = false } = Astro.props;
+const { title, summary, cover, coverAlt, tags, status } = project.data;
+const href = `/projects/${project.id}/`;
+---
+
+<article class="card">
+  <img
+    src={cover}
+    alt={coverAlt}
+    width="1200"
+    height="675"
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+  />
+  <div class="body">
+    <h3><a href={href}>{title}</a></h3>
+    {status && <p class="label">{status}</p>}
+    <p class="summary">{summary}</p>
+    <ul class="tags" aria-label="Technologies">
+      {tags.slice(0, 4).map((t) => <li>{t}</li>)}
+    </ul>
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    overflow: hidden;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .card:hover,
+  .card:focus-within {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+  }
+  .body {
+    padding: 1rem 1.1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  h3 {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+  h3 a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+  /* Whole card is clickable via the title link. */
+  h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .label {
+    margin: 0;
+  }
+  .summary {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    flex: 1;
+  }
+</style>
