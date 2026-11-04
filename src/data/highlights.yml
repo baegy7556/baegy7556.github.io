@@ -1,0 +1,10 @@
+items:
+  - title: Embedded control
+    body: Arduino and C control code with PI control and sensor feedback (light, ultrasonic, encoder).
+    proof: Warman Challenge, VEX navigation
+  - title: Hardware & electronics
+    body: Electronics layout, wiring, soldering and fault finding; Fusion 360 CAD and workshop fabrication.
+    proof: Warman Challenge
+  - title: Software & AI tooling
+    body: Browser-based robot simulation, multiplayer game back-ends, and AI agents connected over MCP.
+    proof: robot-mcp, Roblox games

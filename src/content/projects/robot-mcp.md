@@ -8,12 +8,11 @@ role: "TODO: e.g. Solo project — design and implementation"
 period: "TODO: start date – present"
 status: In development
 order: 1
-links:
-  - label: Source on GitHub
-    href: https://github.com/baegy7556 # TODO: link the repo directly
+featured: true
+hidden: false
+links: []
 media:
-  - type: image
-    src: /media/projects/robot-mcp/media-1.svg
+  - file: /media/projects/robot-mcp/media-1.svg
     alt: "TODO: describe this image"
     caption: "TODO: e.g. Arduino circuit editor"
 ---
@@ -38,4 +37,4 @@ It is also built to be driven by an AI: Claude connects through the Model Contex
 
 ## Results
 
-Still in development. **TODO:** what works today, and what you learned (no numbers you haven't measured).
+Still in development. **TODO:** add the repo link under Links, and what works today, and what you learned (no numbers you haven't measured).

@@ -1,16 +1,13 @@
 ---
 import '../styles/global.css';
-import { profile } from '../data/profile';
+import { profile, site, skills, experience, education } from '../lib/data';
 
 interface Props {
   title?: string;
   description?: string;
 }
-const {
-  title,
-  description = `${profile.name} — ${profile.headline}. ${profile.tagline}`,
-} = Astro.props;
-const fullTitle = title ? `${title} · ${profile.name}` : `${profile.name} — Mechatronics Engineering Portfolio`;
+const { title, description = site.seo.description ?? profile.tagline ?? '' } = Astro.props;
+const fullTitle = title ? `${title} · ${profile.name}` : site.seo.title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -38,19 +35,19 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">{site.a11y.skipLink}</a>
     <header class="site-header">
       <div class="container bar">
         <a class="brand" href="/">{profile.name}</a>
         <nav aria-label="Main">
           <ul>
-            <li><a href="/#projects">Projects</a></li>
-            <li><a href="/#skills">Skills</a></li>
-            <li><a href="/#experience">Experience</a></li>
-            <li><a href={profile.cv} download>CV</a></li>
+            <li><a href="/#projects">{site.nav.projects}</a></li>
+            {skills.length > 0 && <li><a href="/#skills">{site.nav.skills}</a></li>}
+            {experience.length + education.length > 0 && <li><a href="/#experience">{site.nav.experience}</a></li>}
+            {profile.cv && <li><a href={profile.cv} download>{site.nav.cv}</a></li>}
           </ul>
         </nav>
-        <button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+        <button class="theme-toggle" type="button" aria-label={site.a11y.themeToggle} aria-pressed="false">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
           </svg>
@@ -66,9 +63,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <div class="container">
         <p class="muted footer-links">
           <span>© {new Date().getFullYear()} {profile.name}</span>
-          <a href={`mailto:${profile.email}`}>{profile.email}</a>
-          <a href={profile.github}>GitHub</a>
-          {profile.linkedin && <a href={profile.linkedin}>LinkedIn</a>}
+          {profile.email && <a href={`mailto:${profile.email}`}>{profile.email}</a>}
+          {profile.github && <a href={profile.github}>{site.buttons.github}</a>}
+          {profile.linkedin && <a href={profile.linkedin}>{site.buttons.linkedin}</a>}
         </p>
       </div>
     </footer>

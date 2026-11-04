@@ -8,12 +8,10 @@ role: "TODO: your role in the team"
 period: "TODO: e.g. 2026"
 status: Completed
 order: 5
+featured: false
+hidden: false
+links: []
 media: []
-# TODO: upload the video to YouTube (unlisted is fine) and add it here — don't commit big video files.
-# media:
-#   - type: youtube
-#     src: VIDEO_ID        # the part after "watch?v="
-#     alt: ENGGEN 204 team video on drones in precision agriculture
 ---
 
 ## Overview
@@ -32,4 +30,4 @@ A team project for ENGGEN 204, presented as a video, on how drones can be used i
 
 ## Results
 
-**TODO:** outcome / grade only if you want to share it.
+**TODO:** add the YouTube link under Media (unlisted is fine). Outcome / grade only if you want to share it.

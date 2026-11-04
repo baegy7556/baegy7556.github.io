@@ -1,9 +1,14 @@
 name: Deploy to GitHub Pages
 
+# Runs on every push to main (including saves from Pages CMS).
+# Safety: "deploy" only runs if "build" succeeds. If the build fails
+# (e.g. a required field is empty), nothing is deployed and the live site
+# stays exactly as it was. The error message is in the failed "build" job.
 on:
   push:
     branches: [main]
-  workflow_dispatch:
+  pull_request:          # PRs: build only, as a check — never deployed
+  workflow_dispatch:     # "Run workflow" button in the Actions tab
 
 permissions:
   contents: read
@@ -11,7 +16,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -24,13 +29,16 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - run: npm run build
+      - name: Build (fails with the file + field name if content is invalid)
+        run: npm run build
       - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
         with:
           path: dist
 
   deploy:
     needs: build
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

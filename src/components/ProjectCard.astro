@@ -1,31 +1,50 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { site } from '../lib/data';
 
 interface Props {
   project: CollectionEntry<'projects'>;
   eager?: boolean;
 }
 const { project, eager = false } = Astro.props;
-const { title, summary, cover, coverAlt, tags, status } = project.data;
+const { title, summary, cover, coverAlt, tags, status, featured } = project.data;
 const href = `/projects/${project.id}/`;
 ---
 
 <article class="card">
-  <img
-    src={cover}
-    alt={coverAlt}
-    width="1200"
-    height="675"
-    loading={eager ? 'eager' : 'lazy'}
-    decoding="async"
-  />
+  {
+    cover && (
+      <img
+        src={cover}
+        alt={coverAlt ?? ''}
+        width="1200"
+        height="675"
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    )
+  }
   <div class="body">
     <h3><a href={href}>{title}</a></h3>
-    {status && <p class="label">{status}</p>}
+    {
+      (featured || status) && (
+        <p class="label">
+          {featured && <span class="featured">★ {site.project.featured}</span>}
+          {featured && status && ' · '}
+          {status}
+        </p>
+      )
+    }
     <p class="summary">{summary}</p>
-    <ul class="tags" aria-label="Technologies">
-      {tags.slice(0, 4).map((t) => <li>{t}</li>)}
-    </ul>
+    {
+      tags.length > 0 && (
+        <ul class="tags" aria-label={site.a11y.techList}>
+          {tags.slice(0, 4).map((t) => (
+            <li>{t}</li>
+          ))}
+        </ul>
+      )
+    }
   </div>
 </article>
 
@@ -76,6 +95,10 @@ const href = `/projects/${project.id}/`;
   }
   .label {
     margin: 0;
+  }
+  .featured {
+    color: var(--accent);
+    font-weight: 700;
   }
   .summary {
     margin: 0;

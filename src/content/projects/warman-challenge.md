@@ -8,9 +8,11 @@ role: Initial build, electronics layout, assembly and Arduino control code (team
 period: "2026"
 status: Completed
 order: 2
+featured: true
+hidden: false
+links: []
 media:
-  - type: image
-    src: /media/projects/warman-challenge/media-1.svg
+  - file: /media/projects/warman-challenge/media-1.svg
     alt: "TODO: describe this image"
     caption: "TODO: e.g. electronics layout"
 ---

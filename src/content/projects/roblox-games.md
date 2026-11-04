@@ -8,12 +8,11 @@ role: Solo developer — design, code and assets
 period: 2025 – present
 status: Published / in development
 order: 4
-links:
-  - label: Play on Roblox
-    href: https://www.roblox.com # TODO: link to your published game
+featured: false
+hidden: false
+links: []
 media:
-  - type: image
-    src: /media/projects/roblox-games/media-1.svg
+  - file: /media/projects/roblox-games/media-1.svg
     alt: "TODO: describe this image"
     caption: "TODO: game name — short description"
 ---
@@ -36,4 +35,4 @@ Solo: I built the full stack — server services, client UI, data persistence an
 
 ## Results
 
-**TODO:** only real numbers — e.g. visits or players, if you want to share them.
+**TODO:** add the game link under Links, and only real numbers — e.g. visits or players, if you want to share them.

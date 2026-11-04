@@ -8,6 +8,9 @@ role: "TODO: confirm — e.g. wrote the control code (solo / team of N)"
 period: "2026"
 status: Completed
 order: 3
+featured: false
+hidden: false
+links: []
 media: []
 ---
 

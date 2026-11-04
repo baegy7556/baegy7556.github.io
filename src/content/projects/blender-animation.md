@@ -7,9 +7,11 @@ tags: [Blender, Rigging, Animation, 3D modelling]
 role: "TODO: e.g. Personal project — modelling, rigging and animation"
 period: "TODO"
 order: 6
+featured: false
+hidden: false
+links: []
 media:
-  - type: image
-    src: /media/projects/blender-animation/media-1.svg
+  - file: /media/projects/blender-animation/media-1.svg
     alt: "TODO: describe this image"
     caption: "TODO: e.g. rig with controls"
 ---
