@@ -18,9 +18,12 @@ const { title, summary, cover, coverAlt, tags, role, period, status, links } = p
 const media = resolveMedia(project.data.media);
 const { Content } = await render(project);
 const hasSpec = role || period || status || tags.length > 0;
+// Link previews (KakaoTalk, LinkedIn, Slack…) can't show SVG, so only a raster cover is used;
+// otherwise Base falls back to the site-wide share image.
+const shareImage = cover && /\.(png|jpe?g|webp)$/i.test(cover) ? cover : undefined;
 ---
 
-<Base title={title} description={summary}>
+<Base title={title} description={summary} image={shareImage} imageAlt={shareImage ? coverAlt : undefined} type="article">
   <article class="container project">
     <p><a href="/#projects">{site.project.back}</a></p>
     <header>
@@ -169,6 +172,13 @@ const hasSpec = role || period || status || tags.length > 0;
   }
   .prose :global(strong) {
     font-weight: 650;
+  }
+  .prose :global(img) {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin: 1rem 0;
   }
   section {
     margin-top: 2rem;
