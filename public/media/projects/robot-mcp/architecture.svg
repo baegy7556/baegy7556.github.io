@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" font-family="system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif">
+  <title>robot-mcp architecture</title>
+  <desc>Claude calls MCP tools on a bridge hub. The hub connects to the browser web app (3D editor, circuit emulation, physics) and to a real Arduino over serial. A Fusion 360 add-in imports assemblies into the 3D editor. The same firmware runs in the circuit emulation and on the real Arduino.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#3a4450"/>
+    </marker>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#0a62b8"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="675" fill="#f5f7f9"/>
+
+  <text x="50" y="58" font-size="26" font-weight="700" fill="#14181d">robot-mcp — architecture</text>
+
+  <!-- Claude -->
+  <rect x="50" y="290" width="200" height="90" rx="10" fill="#0a62b8"/>
+  <text x="150" y="330" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">Claude</text>
+  <text x="150" y="356" text-anchor="middle" font-size="15" fill="#d6e6f7">MCP client</text>
+
+  <!-- Claude -> hub -->
+  <line x1="250" y1="335" x2="326" y2="335" stroke="#0a62b8" stroke-width="2.5" marker-end="url(#b)"/>
+  <text x="290" y="324" text-anchor="middle" font-size="13" fill="#0a62b8">MCP tools</text>
+
+  <!-- Bridge hub -->
+  <rect x="330" y="280" width="200" height="110" rx="10" fill="#ffffff" stroke="#0a62b8" stroke-width="2.5"/>
+  <text x="430" y="330" text-anchor="middle" font-size="20" font-weight="700" fill="#14181d">Bridge hub</text>
+  <text x="430" y="354" text-anchor="middle" font-size="14" fill="#535d69">routes tool calls</text>
+
+  <!-- Fusion 360 add-in -->
+  <rect x="330" y="135" width="200" height="90" rx="10" fill="#ffffff" stroke="#9aa5b1" stroke-width="2"/>
+  <text x="430" y="172" text-anchor="middle" font-size="17" font-weight="700" fill="#14181d">Fusion 360 add-in</text>
+  <text x="430" y="196" text-anchor="middle" font-size="13" fill="#535d69">mass · centre of mass · joints</text>
+
+  <!-- Web app -->
+  <rect x="620" y="95" width="530" height="325" rx="12" fill="#ffffff" stroke="#c9d1da" stroke-width="2"/>
+  <text x="640" y="126" font-size="15" font-weight="700" fill="#535d69" letter-spacing="1">WEB APP (BROWSER)</text>
+
+  <rect x="645" y="145" width="230" height="125" rx="8" fill="#eaf1f9" stroke="#b7cde6"/>
+  <text x="760" y="190" text-anchor="middle" font-size="17" font-weight="700" fill="#14181d">3D editor</text>
+  <text x="760" y="215" text-anchor="middle" font-size="13" fill="#535d69">parts · holes · mirror · shell</text>
+  <text x="760" y="236" text-anchor="middle" font-size="13" fill="#535d69">imported assemblies</text>
+
+  <rect x="900" y="145" width="230" height="125" rx="8" fill="#eaf1f9" stroke="#b7cde6"/>
+  <text x="1015" y="190" text-anchor="middle" font-size="17" font-weight="700" fill="#14181d">Circuit emulation</text>
+  <text x="1015" y="215" text-anchor="middle" font-size="13" fill="#535d69">Arduino firmware on avr8js</text>
+  <text x="1015" y="236" text-anchor="middle" font-size="13" fill="#535d69">→ L298N driver · sensors</text>
+
+  <rect x="645" y="315" width="485" height="80" rx="8" fill="#eaf1f9" stroke="#b7cde6"/>
+  <text x="887" y="348" text-anchor="middle" font-size="17" font-weight="700" fill="#14181d">3D physics (Rapier)</text>
+  <text x="887" y="372" text-anchor="middle" font-size="13" fill="#535d69">motor torque–speed curve · gear friction · deadband · voltage drop</text>
+
+  <line x1="760" y1="270" x2="760" y2="311" stroke="#3a4450" stroke-width="2" marker-end="url(#a)"/>
+  <text x="768" y="296" font-size="12" fill="#3a4450">geometry</text>
+  <line x1="1015" y1="270" x2="1015" y2="311" stroke="#3a4450" stroke-width="2" marker-end="url(#a)"/>
+  <text x="1023" y="296" font-size="12" fill="#3a4450">motor drive</text>
+
+  <!-- Hub -> web app -->
+  <line x1="530" y1="300" x2="616" y2="300" stroke="#0a62b8" stroke-width="2.5" marker-end="url(#b)"/>
+
+  <!-- Fusion -> 3D editor (drawn on top of the web app box) -->
+  <line x1="530" y1="180" x2="641" y2="180" stroke="#3a4450" stroke-width="2" marker-end="url(#a)"/>
+  <text x="586" y="170" text-anchor="middle" font-size="13" fill="#3a4450">import</text>
+
+  <!-- Real robot -->
+  <rect x="620" y="465" width="530" height="135" rx="12" fill="#ffffff" stroke="#c9d1da" stroke-width="2"/>
+  <text x="640" y="496" font-size="15" font-weight="700" fill="#535d69" letter-spacing="1">REAL ROBOT</text>
+
+  <rect x="645" y="512" width="200" height="66" rx="8" fill="#f5f7f9" stroke="#c9d1da"/>
+  <text x="745" y="551" text-anchor="middle" font-size="16" font-weight="700" fill="#14181d">Serial link</text>
+
+  <rect x="900" y="512" width="230" height="66" rx="8" fill="#f5f7f9" stroke="#c9d1da"/>
+  <text x="1015" y="551" text-anchor="middle" font-size="16" font-weight="700" fill="#14181d">Arduino firmware</text>
+
+  <line x1="845" y1="545" x2="896" y2="545" stroke="#3a4450" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- Hub -> real robot -->
+  <polyline points="530,365 575,365 575,545 641,545" fill="none" stroke="#0a62b8" stroke-width="2.5" marker-end="url(#b)"/>
+
+  <!-- Same firmware -->
+  <polyline points="1130,545 1172,545 1172,208 1130,208" fill="none" stroke="#3a4450" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="1188" y="376" text-anchor="middle" font-size="13" fill="#3a4450" transform="rotate(-90 1188 376)">same firmware</text>
+
+  <!-- Legend -->
+  <line x1="50" y1="560" x2="90" y2="560" stroke="#0a62b8" stroke-width="2.5" marker-end="url(#b)"/>
+  <text x="100" y="565" font-size="14" fill="#535d69">MCP tool calls</text>
+  <line x1="50" y1="590" x2="90" y2="590" stroke="#3a4450" stroke-width="2" marker-end="url(#a)"/>
+  <text x="100" y="595" font-size="14" fill="#535d69">data inside the app / robot</text>
+  <line x1="50" y1="620" x2="90" y2="620" stroke="#3a4450" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="100" y="625" font-size="14" fill="#535d69">same code runs in both</text>
+</svg>

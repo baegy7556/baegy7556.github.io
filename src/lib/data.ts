@@ -84,7 +84,7 @@ export const site = load(
   'site.yml',
   siteRaw,
   z.object({
-    seo: z.object({ title: req(), description: opt() }),
+    seo: z.object({ title: req(), description: opt(), image: opt() }),
     nav: z.object({ projects: req(), skills: req(), experience: req(), cv: req() }),
     buttons: z.object({ downloadCv: req(), github: req(), linkedin: req(), email: req() }),
     sections: z.object({ highlights: req(), projects: req(), skills: req(), experience: req(), education: req() }),

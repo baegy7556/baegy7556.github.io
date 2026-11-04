@@ -1,6 +1,7 @@
 seo:
   title: Geonyi Bae — Mechatronics Engineering Portfolio
-  description: ""
+  description: Mechatronics Engineering student at the University of Auckland — robots, the embedded code that drives them, and software tools for designing them.
+  image: /media/og-default.png
 nav:
   projects: Projects
   skills: Skills
