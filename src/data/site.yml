@@ -1,0 +1,35 @@
+seo:
+  title: Geonyi Bae — Mechatronics Engineering Portfolio
+  description: ""
+nav:
+  projects: Projects
+  skills: Skills
+  experience: Experience
+  cv: CV
+buttons:
+  downloadCv: Download CV (PDF)
+  github: GitHub
+  linkedin: LinkedIn
+  email: Email
+sections:
+  highlights: What I can do
+  projects: Projects
+  skills: Technical skills
+  experience: Experience
+  education: Education
+project:
+  back: ← All projects
+  role: My role
+  period: When
+  status: Status
+  tech: Tech used
+  links: Links
+  media: Media
+  featured: Featured
+notFound:
+  title: Page not found
+  link: Back to the home page
+a11y:
+  skipLink: Skip to content
+  themeToggle: Toggle dark mode
+  techList: Technologies

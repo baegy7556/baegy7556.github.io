@@ -1,0 +1,15 @@
+groups:
+  - name: Engineering
+    items: [Control systems, PI control, Sensor feedback, Autonomous navigation]
+  - name: Embedded & hardware
+    items: [Arduino, Sensor integration, Wiring & circuit assembly, Electronics measurement & fault finding]
+  - name: Design & CAD
+    items: [Fusion 360 (3D modelling, engineering drawings)]
+  - name: Manufacturing
+    items: [Soldering, Turning, Milling, Welding, 3D printing, Laser cutting]
+  - name: Programming
+    items: [Embedded C, C++, MATLAB, Luau]
+  - name: AI & automation
+    items: [Claude Code, Codex, MCP (Model Context Protocol)]
+  - name: Languages
+    items: [English, Korean]

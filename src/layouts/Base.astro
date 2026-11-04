@@ -1,0 +1,166 @@
+---
+import '../styles/global.css';
+import { profile, site, skills, experience, education } from '../lib/data';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = site.seo.description ?? profile.tagline ?? '' } = Astro.props;
+const fullTitle = title ? `${title} · ${profile.name}` : site.seo.title;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1216" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      // Apply the saved theme before first paint (no flash).
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{site.a11y.skipLink}</a>
+    <header class="site-header">
+      <div class="container bar">
+        <a class="brand" href="/">{profile.name}</a>
+        <nav aria-label="Main">
+          <ul>
+            <li><a href="/#projects">{site.nav.projects}</a></li>
+            {skills.length > 0 && <li><a href="/#skills">{site.nav.skills}</a></li>}
+            {experience.length + education.length > 0 && <li><a href="/#experience">{site.nav.experience}</a></li>}
+            {profile.cv && <li><a href={profile.cv} download>{site.nav.cv}</a></li>}
+          </ul>
+        </nav>
+        <button class="theme-toggle" type="button" aria-label={site.a11y.themeToggle} aria-pressed="false">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p class="muted footer-links">
+          <span>© {new Date().getFullYear()} {profile.name}</span>
+          {profile.email && <a href={`mailto:${profile.email}`}>{profile.email}</a>}
+          {profile.github && <a href={profile.github}>{site.buttons.github}</a>}
+          {profile.linkedin && <a href={profile.linkedin}>{site.buttons.linkedin}</a>}
+        </p>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (function () {
+        const root = document.documentElement;
+        const btn = document.querySelector('.theme-toggle');
+        const isDark = () =>
+          root.dataset.theme
+            ? root.dataset.theme === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const sync = () => btn.setAttribute('aria-pressed', String(isDark()));
+        sync();
+        btn.addEventListener('click', function () {
+          const next = isDark() ? 'light' : 'dark';
+          root.dataset.theme = next;
+          try {
+            localStorage.setItem('theme', next);
+          } catch (e) {}
+          sync();
+        });
+      })();
+    </script>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 3.5rem;
+  }
+  .brand {
+    font-weight: 700;
+    color: var(--fg);
+    text-decoration: none;
+    margin-right: auto;
+    white-space: nowrap;
+  }
+  nav ul {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  nav a {
+    display: inline-block;
+    padding: 0.5rem 0.5rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  nav a:hover {
+    color: var(--fg);
+  }
+  .theme-toggle {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--fg);
+    cursor: pointer;
+  }
+  @media (max-width: 30rem) {
+    .brand {
+      display: none;
+    }
+    nav {
+      margin-right: auto;
+    }
+    nav a {
+      padding: 0.5rem 0.35rem;
+    }
+  }
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+  }
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 0 2rem;
+    font-size: 0.9rem;
+  }
+</style>
